@@ -5,7 +5,7 @@ import { useAppStore } from "../stores/useAppStore"
 export default function Header() {
     const { pathname } = useLocation()
     const isHome = useMemo(() => pathname === "/", [pathname])
-    const { fetchCategories } = useAppStore()
+    const { fetchCategories, categories } = useAppStore()
 
     useEffect(() => {
         fetchCategories()
@@ -73,6 +73,7 @@ export default function Header() {
                                 className="w-full p-3 rounded-lg focus:outline-none"
                             >
                                 <option value="">-- SELECCIONAR --</option>
+                                
                             </select>
                         </div>
 
