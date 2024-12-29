@@ -34,6 +34,6 @@ export async function getRecipeById(id: Drink["idDrink"]) {
     const result = RecipeAPIResponseSchema.safeParse(data.drinks[0])
 
     if (result.success) {
-        return data
+        return result.data
     }
 }

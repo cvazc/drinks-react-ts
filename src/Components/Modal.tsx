@@ -3,12 +3,16 @@ import { Fragment } from "react"
 import { useAppStore } from "../stores/useAppStore"
 
 export default function Modal() {
-    const {modal, closeModal} = useAppStore()
+    const { modal, closeModal, selectedRecipe } = useAppStore()
 
     return (
         <>
             <Transition appear show={modal} as={Fragment}>
-                <Dialog as="div" className="relative z-10" onClose={() => closeModal()}>
+                <Dialog
+                    as="div"
+                    className="relative z-10"
+                    onClose={() => closeModal()}
+                >
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -37,8 +41,15 @@ export default function Modal() {
                                         as="h3"
                                         className="my-5 text-4xl font-extrabold text-center text-gray-900"
                                     >
-                                        Titulo Aquí
+                                        {selectedRecipe.strDrink}
                                     </Dialog.Title>
+
+                                    <img
+                                        src={selectedRecipe.strDrinkThumb}
+                                        alt={`Image ${selectedRecipe.strDrink}`}
+                                        className="mw-auto w-96"
+                                    />
+
                                     <Dialog.Title
                                         as="h3"
                                         className="my-5 text-2xl font-extrabold text-gray-900"
@@ -51,6 +62,9 @@ export default function Modal() {
                                     >
                                         Instrucciones
                                     </Dialog.Title>
+                                    <p className="text-lg">
+                                        {selectedRecipe.strInstructions}
+                                    </p>
                                 </Dialog.Panel>
                             </Transition.Child>
                         </div>
