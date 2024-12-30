@@ -4,7 +4,13 @@ import { useAppStore } from "../stores/useAppStore"
 import { Recipe } from "../types"
 
 export default function Modal() {
-    const { modal, closeModal, selectedRecipe } = useAppStore()
+    const {
+        modal,
+        closeModal,
+        selectedRecipe,
+        handleClickBookmark,
+        bookmarkExist,
+    } = useAppStore()
 
     const renderIngredients = () => {
         const ingredients: JSX.Element[] = []
@@ -22,10 +28,6 @@ export default function Modal() {
             }
         }
         return ingredients
-    }
-
-    const handleClickFavorite = () => {
-        
     }
 
     return (
@@ -92,8 +94,28 @@ export default function Modal() {
                                     </p>
 
                                     <div className="flex justify-between gap-4 mt-5">
-                                        <button type="button" className="w-full p-3 font-bold text-white uppercase bg-gray-600 rounded shadow hover:bg-gray-500" onClick={closeModal}>Cerrar</button>
-                                        <button type="button" className="w-full p-3 font-bold text-white uppercase bg-orange-600 rounded shadow hover:bg-orange-500" onClick={() => handleClickFavorite}>Agregar a Favoritos</button>
+                                        <button
+                                            type="button"
+                                            className="w-full p-3 font-bold text-white uppercase bg-gray-600 rounded shadow hover:bg-gray-500"
+                                            onClick={closeModal}
+                                        >
+                                            Cerrar
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="w-full p-3 font-bold text-white uppercase bg-orange-600 rounded shadow hover:bg-orange-500"
+                                            onClick={() =>
+                                                handleClickBookmark(
+                                                    selectedRecipe
+                                                )
+                                            }
+                                        >
+                                            {bookmarkExist(
+                                                selectedRecipe.idDrink
+                                            )
+                                                ? "Eliminar Favorito"
+                                                : "Agregar a Favoritos"}
+                                        </button>
                                     </div>
                                 </Dialog.Panel>
                             </Transition.Child>
