@@ -1,9 +1,32 @@
 import { Dialog, Transition } from "@headlessui/react"
 import { Fragment } from "react"
 import { useAppStore } from "../stores/useAppStore"
+import { Recipe } from "../types"
 
 export default function Modal() {
     const { modal, closeModal, selectedRecipe } = useAppStore()
+
+    const renderIngredients = () => {
+        const ingredients: JSX.Element[] = []
+        for (let i = 1; i <= 6; i++) {
+            const ingredient =
+                selectedRecipe[`strIngredient${i}` as keyof Recipe]
+            const measure = selectedRecipe[`strMeasure${i}` as keyof Recipe]
+
+            if (ingredient && measure) {
+                ingredients.push(
+                    <li key={i} className="text-lg font-normal">
+                        {ingredient} - {measure}
+                    </li>
+                )
+            }
+        }
+        return ingredients
+    }
+
+    const handleClickFavorite = () => {
+        
+    }
 
     return (
         <>
@@ -56,6 +79,8 @@ export default function Modal() {
                                     >
                                         Ingredientes y Cantidades
                                     </Dialog.Title>
+
+                                    {renderIngredients()}
                                     <Dialog.Title
                                         as="h3"
                                         className="my-5 text-2xl font-extrabold text-gray-900"
@@ -65,6 +90,11 @@ export default function Modal() {
                                     <p className="text-lg">
                                         {selectedRecipe.strInstructions}
                                     </p>
+
+                                    <div className="flex justify-between gap-4 mt-5">
+                                        <button type="button" className="w-full p-3 font-bold text-white uppercase bg-gray-600 rounded shadow hover:bg-gray-500" onClick={closeModal}>Cerrar</button>
+                                        <button type="button" className="w-full p-3 font-bold text-white uppercase bg-orange-600 rounded shadow hover:bg-orange-500" onClick={() => handleClickFavorite}>Agregar a Favoritos</button>
+                                    </div>
                                 </Dialog.Panel>
                             </Transition.Child>
                         </div>
