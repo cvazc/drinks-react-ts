@@ -4,31 +4,36 @@ import { useAppStore } from "../stores/useAppStore"
 
 export default function Header() {
     const [searchFilters, setSearchFilters] = useState({
-        ingredient: '',
-        category: ''
+        ingredient: "",
+        category: "",
     })
-    
+
     const { pathname } = useLocation()
     const isHome = useMemo(() => pathname === "/", [pathname])
-    const {fetchCategories, categories, serachRecipes} = useAppStore()
+    const { fetchCategories, categories, serachRecipes, showNotification } =
+        useAppStore()
 
     useEffect(() => {
         fetchCategories()
     }, [])
 
-    const handleChange = (event:ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>) => {
+    const handleChange = (
+        event: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>
+    ) => {
         setSearchFilters({
             ...searchFilters,
-            [event.target.name] : event.target.value
+            [event.target.name]: event.target.value,
         })
     }
 
-    const handleSubmit = (event : FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault()
 
-        // TODO: Validate
-        if(Object.values(searchFilters).includes('')){
-            console.log("Todos los campos son obligatorios")
+        if (Object.values(searchFilters).includes("")) {
+            showNotification({
+                text: "Todos los campos son obligatorios",
+                error: true,
+            })
             return
         }
 
@@ -68,7 +73,10 @@ export default function Header() {
                     </nav>
                 </div>
                 {isHome && (
-                    <form className="p-10 my-32 space-y-6 bg-orange-400 rounded-lg shadow md:w-1/2 2xl:w-1/3" onSubmit={handleSubmit}>
+                    <form
+                        className="p-10 my-32 space-y-6 bg-orange-400 rounded-lg shadow md:w-1/2 2xl:w-1/3"
+                        onSubmit={handleSubmit}
+                    >
                         <div className="space-y-4">
                             <label
                                 htmlFor="ingredient"
